@@ -1,22 +1,56 @@
 {
     "version": "2.0.0",
-    "configurations": 
-    [
+    "configurations": [
+        {
+            "name": "C: Docker GCC 9.2.0 gdb (macOS)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/main.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "${workspaceFolder}/.vscode/gdb-mi.sh",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build"
+        },
+        {
+            "name": "C: native clang + lldb (macOS)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/main-native",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "build (native clang, for lldb)"
+        },
         {
             "name": "C: gcc.exe build and debug (external Console)",
             "type": "cppdbg",
             "request": "launch",
-            //"program": "${fileDirname}\\..\\bin\\${fileBasenameNoExtension}.exe",
             "program": "${fileDirname}\\..\\bin\\main.exe",
-            "args": ["1","2"], // argues!
+            "args": [
+                "1",
+                "2"
+            ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb.exe",
-            "setupCommands": 
-            [
+            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
+            "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
@@ -36,9 +70,8 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb.exe",
-            "setupCommands": 
-            [
+            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
+            "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",

@@ -1,9 +1,15 @@
-//char *AUTHOR_NAME        = (char *) "Your Name";
-//char *AUTHOR_AUTHORSHIP  = (char *) "I acknowledge that I have worked on this
-// assignment independently, except where explicitly noted and referenced.
-// Any collaboration or use of external resources has been properly cited.
-// I am fully aware of the consequences of academic dishonesty and agree to
-// abide by the university's academic integrity policy.";
+// Robert Jackson
+// CSCI 232 Fall 2026
+// Programming Assignment #4
+// I declare that I am the author of this work, take full responsibility for it, and have disclosed any material external assistance.
+// I collaborated with Claude Code (Anthropic, Claude Opus 5.5) to complete this assignment.
+
+char *AUTHOR_NAME        = (char *) "Robert Jackson";
+char *AUTHOR_AUTHORSHIP  = (char *) "I acknowledge that I have worked on this "
+    "assignment independently, except where explicitly noted and referenced. "
+    "Any collaboration or use of external resources has been properly cited. "
+    "I am fully aware of the consequences of academic dishonesty and agree to "
+    "abide by the university's academic integrity policy.";
 
 
 #include <stdio.h>
@@ -80,7 +86,7 @@ int   listLength  (Node *headPtr);
 
 static void _nullify(Node **nodePtrPtr)
 {
-    // TODO
+    nodePtrPtr = 0
 }
 
 
