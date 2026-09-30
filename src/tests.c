@@ -50,10 +50,11 @@ int   listLength  (Node *headPtr);
 // Verify that the value field contains that value.
 // ============================================================
 
-void test_initNode_sets_value(void)
-{
-        TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
-    
+void test_initNode_sets_value(void) {
+    Node a;
+
+    initNode(&a, 42);
+    TEST_ASSERT_TRUE_MESSAGE(a.value == 42, "Error: initNode must set the value field.");
 }
 
 
@@ -65,10 +66,12 @@ void test_initNode_sets_value(void)
 // Verify that nextPtr is NULL after the call.
 // ============================================================
 
-void test_initNode_sets_next_null(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_initNode_sets_next_null(void) {
+    Node a;
+
+    a.nextPtr = &a;          // start non-NULL so the test proves initNode clears it
+    initNode(&a, 7);
+    TEST_ASSERT_TRUE_MESSAGE(a.nextPtr == NULL, "Error: initNode must set nextPtr to NULL.");
 }
 
 
@@ -79,9 +82,7 @@ void test_initNode_sets_next_null(void)
 // Verify the program does not crash.
 // ============================================================
 
-void test_initNode_null_guard(void)
-{
-    // TODO
+void test_initNode_null_guard(void) {
     initNode(NULL, 42);
     TEST_ASSERT_TRUE_MESSAGE(1 == 1,
         "Error: initNode must handle NULL without crashing.");
@@ -96,10 +97,12 @@ void test_initNode_null_guard(void)
 // Remember to free memory after the test using destroyNode.
 // ============================================================
 
-void test_createNode_not_null(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_createNode_not_null(void) {
+    Node *nodePtr = createNode(5);
+
+    TEST_ASSERT_TRUE_MESSAGE(nodePtr != NULL, "Error: createNode must return a non-NULL pointer.");
+
+    destroyNode(&nodePtr);
 }
 
 
@@ -112,10 +115,12 @@ void test_createNode_not_null(void)
 // Remember to free memory after the test using destroyNode.
 // ============================================================
 
-void test_createNode_value(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_createNode_value(void) {
+    Node *nodePtr = createNode(5);
+
+    TEST_ASSERT_TRUE_MESSAGE(nodePtr != NULL && nodePtr->value == 5, "Error: createNode must set the value field.");
+
+    destroyNode(&nodePtr);
 }
 
 
@@ -127,10 +132,12 @@ void test_createNode_value(void)
 // Remember to free memory after the test using destroyNode.
 // ============================================================
 
-void test_createNode_next_null(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_createNode_next_null(void) {
+    Node *nodePtr = createNode(5);
+
+    TEST_ASSERT_TRUE_MESSAGE(nodePtr != NULL && nodePtr->nextPtr == NULL, "Error: createNode must set nextPtr to NULL.");
+
+    destroyNode(&nodePtr);
 }
 
 
@@ -142,10 +149,11 @@ void test_createNode_next_null(void)
 // Verify that the pointer is NULL after the call.
 // ============================================================
 
-void test_destroyNode_sets_null(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_destroyNode_sets_null(void) {
+    Node *nodePtr = createNode(5);
+
+    destroyNode(&nodePtr);
+    TEST_ASSERT_TRUE_MESSAGE(nodePtr == NULL, "Error: destroyNode must set the pointer to NULL.");
 }
 
 
@@ -158,10 +166,14 @@ void test_destroyNode_sets_null(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_addFirst_empty_list(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_addFirst_empty_list(void) {
+    Node *headPtr = NULL;
+    Node *nodePtr = createNode(10);
+
+    addFirst(&headPtr, nodePtr);
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == nodePtr, "Error: addFirst on an empty list must make the node the head.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -175,10 +187,17 @@ void test_addFirst_empty_list(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_addFirst_non_empty(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_addFirst_non_empty(void) {
+    Node *headPtr   = NULL;
+    Node *firstPtr  = createNode(10);
+    Node *secondPtr = createNode(20);
+
+    addFirst(&headPtr, firstPtr);
+    addFirst(&headPtr, secondPtr);
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == secondPtr, "Error: addFirst must put the newest node at the front.");
+    TEST_ASSERT_TRUE_MESSAGE(headPtr->nextPtr == firstPtr, "Error: the earlier node must follow the new head.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -189,10 +208,11 @@ void test_addFirst_non_empty(void)
 // Verify the function returns -1.
 // ============================================================
 
-void test_addFirst_null_headptr(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_addFirst_null_headptr(void) {
+    Node node;
+
+    initNode(&node, 10);
+    TEST_ASSERT_TRUE_MESSAGE(addFirst(NULL, &node) == -1, "Error: addFirst must return -1 when headPtrPtr is NULL.");
 }
 
 
@@ -205,10 +225,14 @@ void test_addFirst_null_headptr(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_addLast_empty_list(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_addLast_empty_list(void) {
+    Node *headPtr = NULL;
+    Node *nodePtr = createNode(10);
+
+    addLast(&headPtr, nodePtr);
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == nodePtr, "Error: addLast on an empty list must make the node the head.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -222,10 +246,18 @@ void test_addLast_empty_list(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_addLast_non_empty(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_addLast_non_empty(void) {
+    Node *headPtr   = NULL;
+    Node *firstPtr  = createNode(10);
+    Node *secondPtr = createNode(20);
+
+    addLast(&headPtr, firstPtr);
+    addLast(&headPtr, secondPtr);
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == firstPtr, "Error: addLast must keep the first node at the head.");
+    TEST_ASSERT_TRUE_MESSAGE(headPtr->nextPtr == secondPtr, "Error: addLast must attach the new node after the last one.");
+    TEST_ASSERT_TRUE_MESSAGE(secondPtr->nextPtr == NULL, "Error: the new last node's nextPtr must be NULL.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -236,10 +268,11 @@ void test_addLast_non_empty(void)
 // Verify the function returns -1.
 // ============================================================
 
-void test_addLast_null_guard(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_addLast_null_guard(void) {
+    Node node;
+
+    initNode(&node, 10);
+    TEST_ASSERT_TRUE_MESSAGE(addLast(NULL, &node) == -1, "Error: addLast must return -1 when headPtrPtr is NULL.");
 }
 
 
@@ -251,10 +284,18 @@ void test_addLast_null_guard(void)
 // Verify the returned pointer equals &a.
 // ============================================================
 
-void test_detachFirst_returns_node(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_detachFirst_returns_node(void) {
+    Node a, b;
+
+    initNode(&a, 1);
+    initNode(&b, 2);
+    a.nextPtr = &b;
+
+    Node *headPtr = &a;
+
+    Node *gotPtr = detachFirst(&headPtr);
+
+    TEST_ASSERT_TRUE_MESSAGE(gotPtr == &a, "Error: detachFirst must return the old head node.");
 }
 
 
@@ -266,10 +307,17 @@ void test_detachFirst_returns_node(void)
 // Verify that headPtr now points to b.
 // ============================================================
 
-void test_detachFirst_updates_head(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_detachFirst_updates_head(void) {
+    Node a, b;
+
+    initNode(&a, 1);
+    initNode(&b, 2);
+    a.nextPtr = &b;
+
+    Node *headPtr = &a;
+
+    detachFirst(&headPtr);
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == &b, "Error: detachFirst must move headPtr to the second node.");
 }
 
 
@@ -280,10 +328,10 @@ void test_detachFirst_updates_head(void)
 // Verify the function returns NULL without crashing.
 // ============================================================
 
-void test_detachFirst_empty_list(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_detachFirst_empty_list(void) {
+    Node *headPtr = NULL;
+
+    TEST_ASSERT_TRUE_MESSAGE(detachFirst(&headPtr) == NULL, "Error: detachFirst must return NULL for an empty list.");
 }
 
 
@@ -297,10 +345,22 @@ void test_detachFirst_empty_list(void)
 // Verify b->nextPtr is NULL after detach.
 // ============================================================
 
-void test_detachValue_found(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_detachValue_found(void) {
+    Node a, b, c;
+
+    initNode(&a, 1);
+    initNode(&b, 2);
+    initNode(&c, 3);
+    a.nextPtr = &b;
+    b.nextPtr = &c;
+
+    Node *headPtr = &a;
+
+    Node *gotPtr = detachValue(&headPtr, 2);
+
+    TEST_ASSERT_TRUE_MESSAGE(gotPtr == &b, "Error: detachValue must return the matching node.");
+    TEST_ASSERT_TRUE_MESSAGE(a.nextPtr == &c, "Error: detachValue must reconnect the chain around the node.");
+    TEST_ASSERT_TRUE_MESSAGE(b.nextPtr == NULL, "Error: the detached node's nextPtr must be NULL.");
 }
 
 
@@ -313,10 +373,19 @@ void test_detachValue_found(void)
 // Verify headPtr now points to b.
 // ============================================================
 
-void test_detachValue_head(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_detachValue_head(void) {
+    Node a, b;
+
+    initNode(&a, 1);
+    initNode(&b, 2);
+    a.nextPtr = &b;
+
+    Node *headPtr = &a;
+
+    Node *gotPtr = detachValue(&headPtr, 1);
+
+    TEST_ASSERT_TRUE_MESSAGE(gotPtr == &a, "Error: detachValue must return the head node when it matches.");
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == &b, "Error: detaching the head must move headPtr to the next node.");
 }
 
 
@@ -328,10 +397,16 @@ void test_detachValue_head(void)
 // Verify the function returns NULL.
 // ============================================================
 
-void test_detachValue_not_found(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_detachValue_not_found(void) {
+    Node a, b;
+
+    initNode(&a, 1);
+    initNode(&b, 2);
+    a.nextPtr = &b;
+
+    Node *headPtr = &a;
+
+    TEST_ASSERT_TRUE_MESSAGE(detachValue(&headPtr, 99) == NULL, "Error: detachValue must return NULL when the value is missing.");
 }
 
 
@@ -345,10 +420,17 @@ void test_detachValue_not_found(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_deleteFirst_removes_node(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_deleteFirst_removes_node(void) {
+    Node *headPtr   = NULL;
+    Node *secondPtr = createNode(20);
+
+    addLast(&headPtr, createNode(10));
+    addLast(&headPtr, secondPtr);
+
+    TEST_ASSERT_TRUE_MESSAGE(deleteFirst(&headPtr) == 0, "Error: deleteFirst must return 0 on success.");
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == secondPtr, "Error: deleteFirst must move headPtr to the second node.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -359,10 +441,10 @@ void test_deleteFirst_removes_node(void)
 // Verify the function returns -1 without crashing.
 // ============================================================
 
-void test_deleteFirst_empty_list(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_deleteFirst_empty_list(void) {
+    Node *headPtr = NULL;
+
+    TEST_ASSERT_TRUE_MESSAGE(deleteFirst(&headPtr) == -1, "Error: deleteFirst must return -1 for an empty list.");
 }
 
 
@@ -377,10 +459,25 @@ void test_deleteFirst_empty_list(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_deleteValue_found(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_deleteValue_found(void) {
+    Node *headPtr = NULL;
+
+    addLast(&headPtr, createNode(10));
+    addLast(&headPtr, createNode(20));
+    addLast(&headPtr, createNode(30));
+
+    TEST_ASSERT_TRUE_MESSAGE(deleteValue(&headPtr, 20) == 0, "Error: deleteValue must return 0 when the value is found.");
+    TEST_ASSERT_TRUE_MESSAGE(listLength(headPtr) == 2, "Error: deleteValue must shorten the list by one.");
+
+    int stillThere = 0;
+
+    for (Node *currentPtr = headPtr; currentPtr != NULL; currentPtr = currentPtr->nextPtr)
+        if (currentPtr->value == 20)
+            stillThere = 1;
+
+    TEST_ASSERT_TRUE_MESSAGE(!stillThere, "Error: the deleted value must no longer be in the list.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -394,10 +491,16 @@ void test_deleteValue_found(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_deleteValue_not_found(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_deleteValue_not_found(void) {
+    Node *headPtr = NULL;
+
+    addLast(&headPtr, createNode(10));
+    addLast(&headPtr, createNode(20));
+
+    TEST_ASSERT_TRUE_MESSAGE(deleteValue(&headPtr, 99) == -1, "Error: deleteValue must return -1 when the value is missing.");
+    TEST_ASSERT_TRUE_MESSAGE(listLength(headPtr) == 2, "Error: a failed deleteValue must leave the list unchanged.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -409,10 +512,15 @@ void test_deleteValue_not_found(void)
 // Verify headPtr is NULL after the call.
 // ============================================================
 
-void test_destroyList_empties_list(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_destroyList_empties_list(void) {
+    Node *headPtr = NULL;
+
+    addLast(&headPtr, createNode(10));
+    addLast(&headPtr, createNode(20));
+    addLast(&headPtr, createNode(30));
+
+    destroyList(&headPtr);
+    TEST_ASSERT_TRUE_MESSAGE(headPtr == NULL, "Error: destroyList must leave headPtr NULL.");
 }
 
 
@@ -423,10 +531,8 @@ void test_destroyList_empties_list(void)
 // Verify the function returns 0.
 // ============================================================
 
-void test_listLength_empty(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_listLength_empty(void) {
+    TEST_ASSERT_TRUE_MESSAGE(listLength(NULL) == 0, "Error: listLength must return 0 for an empty list.");
 }
 
 
@@ -439,10 +545,16 @@ void test_listLength_empty(void)
 // Clean up with destroyList.
 // ============================================================
 
-void test_listLength_three(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_listLength_three(void) {
+    Node *headPtr = NULL;
+
+    addLast(&headPtr, createNode(10));
+    addLast(&headPtr, createNode(20));
+    addLast(&headPtr, createNode(30));
+
+    TEST_ASSERT_TRUE_MESSAGE(listLength(headPtr) == 3, "Error: listLength must count every node.");
+
+    destroyList(&headPtr);
 }
 
 
@@ -453,8 +565,6 @@ void test_listLength_three(void)
 // Verify the function returns -1 without crashing.
 // ============================================================
 
-void test_printList_empty(void)
-{
-    // TODO
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: implement this test.");
+void test_printList_empty(void) {
+    TEST_ASSERT_TRUE_MESSAGE(printList(NULL) == -1, "Error: printList must return -1 for an empty list.");
 }

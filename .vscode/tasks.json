@@ -5,7 +5,6 @@
             "label": "build",
             "type": "shell",
             "command": "mingw32-make",
-            "args": [],
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -13,7 +12,33 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": ["$gcc"]
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "osx": {
+                "command": "make",
+                "options": {
+                    "cwd": "${workspaceFolder}",
+                    "env": {
+                        "PATH": "${env:HOME}/.bin:${env:PATH}"
+                    }
+                }
+            },
+            "linux": {
+                "command": "make"
+            }
+        },
+        {
+            "label": "build (native clang, for lldb)",
+            "type": "shell",
+            "command": "mkdir -p bin && /usr/bin/gcc -g -Wall -Isrc -Ilib src/main.c src/code.c src/tests.c src/unity.c -o bin/main-native",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
         }
     ]
 }
